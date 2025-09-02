@@ -1,0 +1,11 @@
+# 🧠 AlgoTrade Lab — HMM Algorithmic Trading & Execution Analytics
+
+A fully self-contained algorithmic trading backtesting system with:
+- **Gaussian HMM built from scratch** (Forward-Backward + Baum-Welch EM)
+- Swappable strategy architecture (HMM → MA Crossover → Mean Reversion → Buy&Hold)
+- Walk-forward backtesting (no look-ahead bias)
+- Transaction cost & slippage modeling
+- Interactive web dashboard with live charts
+
+---
+
