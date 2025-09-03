@@ -9,3 +9,11 @@ A fully self-contained algorithmic trading backtesting system with:
 
 ---
 
+## 🚀 Quick Start
+
+### 1. Install dependencies
+```bash
+pip install numpy
+```
+That's it. The system uses only the Python standard library + NumPy.
+
