@@ -17,3 +17,9 @@ pip install numpy
 ```
 That's it. The system uses only the Python standard library + NumPy.
 
+### 2. Run the server
+```bash
+cd trading-system
+python server.py
+```
+
