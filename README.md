@@ -23,3 +23,10 @@ cd trading-system
 python server.py
 ```
 
+### 3. Open the dashboard
+Open `index.html` in your browser (double-click, or `open index.html` on Mac).
+
+> **Note:** The dashboard connects to `http://localhost:8000`. Keep the server running.
+
+---
+
