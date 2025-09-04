@@ -30,3 +30,18 @@ Open `index.html` in your browser (double-click, or `open index.html` on Mac).
 
 ---
 
+## 🌐 GitHub Pages Hosting
+
+To host the dashboard on GitHub Pages (no server required — uses synthetic data only):
+
+1. Push the repo to GitHub
+2. Go to **Settings → Pages → Source: main branch / root**
+3. The `index.html` will be served at `https://yourusername.github.io/trading-system/`
+
+For live data, you'll need a backend. Options:
+- **Railway.app** — free Python hosting, deploy `server.py`
+- **Render.com** — free tier, point to `python server.py`
+- **Fly.io** — Docker-based, use the included `Dockerfile`
+
+Update `const API = 'http://localhost:8000'` in `index.html` to your hosted URL.
+
