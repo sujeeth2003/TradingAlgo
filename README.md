@@ -133,3 +133,16 @@ Without a key, the system automatically falls back to:
 
 ---
 
+## 🧠 HMM Implementation Details
+
+`hmm.py` implements the full Baum-Welch algorithm from scratch:
+
+1. **Forward pass** (α) — scaled to prevent underflow
+2. **Backward pass** (β) — scaled using forward normalization constants
+3. **E-step** — compute γ (state posteriors) and ξ (transition posteriors)
+4. **M-step** — update π, A, μ, σ² in closed form
+5. **Viterbi decoding** — log-space dynamic programming for most likely state sequence
+6. **State labeling** — state with lower mean = Bear, higher = Bull (auto-swapped)
+
+---
+
