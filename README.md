@@ -97,3 +97,14 @@ my_param: { min: 1, max: 100, value: 10, step: 1 },
 
 ---
 
+## 📊 Strategies Included
+
+| Strategy | Signal Logic | Indicator |
+|----------|-------------|-----------|
+| **HMM Regime Detection** | Baum-Welch EM trains 2-state Gaussian HMM; Viterbi decodes bull/bear | Bull-state probability |
+| **MA Momentum Crossover** | Long when short MA > long MA | MA lines on price chart |
+| **Mean Reversion (Z-Score)** | Long when z < -threshold, short when z > threshold | Rolling z-score |
+| **Buy & Hold** | Always long — passive benchmark | — |
+
+---
+
