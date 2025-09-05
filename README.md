@@ -146,3 +146,13 @@ Without a key, the system automatically falls back to:
 
 ---
 
+## 🐳 Dockerfile (optional)
+
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY . .
+RUN pip install numpy
+EXPOSE 8000
+CMD ["python", "server.py"]
+```
