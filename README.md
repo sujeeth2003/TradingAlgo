@@ -45,3 +45,19 @@ For live data, you'll need a backend. Options:
 
 Update `const API = 'http://localhost:8000'` in `index.html` to your hosted URL.
 
+---
+
+## 📁 File Structure
+
+```
+trading-system/
+├── index.html          ← Dashboard (open this in browser)
+├── server.py           ← HTTP API server (no dependencies!)
+├── hmm.py              ← Gaussian HMM from scratch ✏️
+├── strategies.py       ← All strategies + pluggable interface ✏️
+├── backtest.py         ← Walk-forward engine + metrics
+├── data.py             ← Polygon.io / Yahoo / Synthetic data
+├── requirements.txt
+└── README.md
+```
+
