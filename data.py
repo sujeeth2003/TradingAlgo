@@ -13,3 +13,17 @@ import urllib.request
 import urllib.parse
 from datetime import datetime, timedelta
 
+
+POLYGON_API_KEY = os.environ.get("POLYGON_API_KEY", "")
+
+
+def fetch_prices(ticker: str, start: str, end: str) -> dict:
+    """
+    Returns { 'dates': [...], 'prices': [...] }
+    Tries Polygon → Yahoo Finance → Synthetic fallback.
+    """
+    if POLYGON_API_KEY:
+        result = _fetch_polygon(ticker, start, end)
+        if result:
+            return result
+
