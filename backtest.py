@@ -61,3 +61,33 @@ def run_backtest(
         train_prices  = prices[i - train_window:i]
         train_returns = returns[i - train_window:i]
 
+        strategy.fit(train_prices, train_returns)
+        all_signals = strategy.generate_signals(train_prices, train_returns)
+        sig = all_signals[-1]
+        signals[i] = sig
+
+        price = prices[i]
+        friction = (transaction_cost + slippage) * price
+
+        # Execute position change
+        if sig != prev_signal:
+            # Close current position
+            if prev_signal == 1 and shares > 0:
+                proceeds = shares * (price - friction)
+                cash += proceeds
+                trades.append({
+                    "date": dates[i], "action": "SELL",
+                    "price": price, "shares": round(shares, 4),
+                    "value": round(proceeds, 2)
+                })
+                shares = 0
+            elif prev_signal == -1 and shares < 0:
+                cost = abs(shares) * (price + friction)
+                cash -= cost
+                trades.append({
+                    "date": dates[i], "action": "COVER",
+                    "price": price, "shares": round(abs(shares), 4),
+                    "value": round(cost, 2)
+                })
+                shares = 0
+
