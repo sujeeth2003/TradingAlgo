@@ -91,3 +91,23 @@ def run_backtest(
                 })
                 shares = 0
 
+            # Open new position
+            if sig == 1:
+                buy_price = price + friction
+                shares = cash / buy_price
+                cash = 0
+                trades.append({
+                    "date": dates[i], "action": "BUY",
+                    "price": price, "shares": round(shares, 4),
+                    "value": round(shares * buy_price, 2)
+                })
+            elif sig == -1:
+                sell_price = price - friction
+                shares = -(cash / sell_price)
+                cash += abs(shares) * sell_price
+                trades.append({
+                    "date": dates[i], "action": "SHORT",
+                    "price": price, "shares": round(abs(shares), 4),
+                    "value": round(abs(shares) * sell_price, 2)
+                })
+
