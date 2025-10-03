@@ -100,3 +100,18 @@ def _synthetic_gbm(ticker: str, start: str, end: str) -> dict:
             days.append(dt.strftime("%Y-%m-%d"))
         dt += timedelta(days=1)
 
+    mu    = 0.0003     # drift per day
+    sigma = 0.015      # daily vol
+
+    # Regime switching for realism
+    price = 100.0 + rng.uniform(0, 200)
+    prices = [price]
+    regime = 1  # 1=bull, -1=bear
+    regime_timer = 0
+
+    for _ in days[1:]:
+        if regime_timer <= 0:
+            regime = 1 if rng.random() < 0.6 else -1
+            regime_timer = rng.randint(20, 120)
+        regime_timer -= 1
+
