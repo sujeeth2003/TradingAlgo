@@ -85,3 +85,18 @@ def _fetch_yahoo(ticker: str, start: str, end: str) -> dict | None:
 
 # ── Synthetic GBM fallback ──────────────────────────────────────────────────
 
+def _synthetic_gbm(ticker: str, start: str, end: str) -> dict:
+    seed = sum(ord(c) for c in ticker)
+    rng = random.Random(seed)
+
+    start_dt = datetime.strptime(start, "%Y-%m-%d")
+    end_dt   = datetime.strptime(end,   "%Y-%m-%d")
+
+    # Generate trading days (weekdays only)
+    days = []
+    dt = start_dt
+    while dt <= end_dt:
+        if dt.weekday() < 5:
+            days.append(dt.strftime("%Y-%m-%d"))
+        dt += timedelta(days=1)
+
