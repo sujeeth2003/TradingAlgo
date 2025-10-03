@@ -127,3 +127,22 @@ def run_backtest(
     strat_returns = np.diff(portfolio) / portfolio[:-1]
     strat_returns = np.concatenate([[0.0], strat_returns])
 
+    # Benchmark (buy & hold from day 0)
+    benchmark = initial_capital * prices / prices[0]
+
+    # --- Metrics ---
+    test_rets = strat_returns[train_window:]
+    bench_rets = returns[train_window:]
+
+    metrics = _compute_metrics(test_rets, bench_rets, portfolio[train_window:], benchmark[train_window:])
+
+    # Optional: regime proba
+    regime_proba = None
+    if hasattr(strategy, "get_regime_proba"):
+        try:
+            full_r = strategy.generate_signals(prices, returns)
+            regime_proba_full = strategy.get_regime_proba(returns)
+            regime_proba = regime_proba_full
+        except Exception:
+            pass
+
