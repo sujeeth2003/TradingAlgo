@@ -169,3 +169,17 @@ def run_backtest(
         indicator_data=indicator_data,
     )
 
+
+def _compute_metrics(strat_returns, bench_returns, portfolio, benchmark, rf=0.02/252):
+    n = len(strat_returns)
+    if n == 0:
+        return {}
+
+    ann = 252
+    excess = strat_returns - rf
+
+    sharpe = (excess.mean() / (strat_returns.std() + 1e-9)) * np.sqrt(ann)
+
+    downside = strat_returns[strat_returns < 0]
+    sortino = (excess.mean() / (downside.std() + 1e-9)) * np.sqrt(ann) if len(downside) else 0
+
