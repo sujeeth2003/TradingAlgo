@@ -23,3 +23,23 @@ class GaussianHMM:
         - Initial state dist   [n_states]
     """
 
+    def __init__(self, n_states: int = 2, n_iter: int = 100, tol: float = 1e-4, random_state: int = 42):
+        self.n_states = n_states
+        self.n_iter = n_iter
+        self.tol = tol
+        self.random_state = random_state
+
+        # Will be set after fit()
+        self.A = None        # Transition matrix
+        self.means = None    # Emission means
+        self.vars = None     # Emission variances
+        self.pi = None       # Initial distribution
+        self.log_likelihoods = []
+
+    # ------------------------------------------------------------------ #
+    #  Emission probability  p(x | state k)  — univariate Gaussian
+    # ------------------------------------------------------------------ #
+    def _emission_prob(self, x: float, k: int) -> float:
+        mu, sigma2 = self.means[k], self.vars[k]
+        return (1.0 / np.sqrt(2 * np.pi * sigma2)) * np.exp(-0.5 * (x - mu) ** 2 / sigma2)
+
