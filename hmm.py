@@ -118,3 +118,17 @@ class GaussianHMM:
         self.pi = gamma[0] / gamma[0].sum()
         self.A = xi.sum(axis=0) / xi.sum(axis=0).sum(axis=1, keepdims=True)
 
+        gamma_sum = gamma.sum(axis=0)
+        self.means = (gamma * obs[:, None]).sum(axis=0) / (gamma_sum + 1e-300)
+
+        diff = obs[:, None] - self.means[None, :]
+        self.vars = (gamma * diff ** 2).sum(axis=0) / (gamma_sum + 1e-300)
+        self.vars = np.clip(self.vars, 1e-6, None)
+
+    # ------------------------------------------------------------------ #
+    #  Fit via Baum-Welch EM
+    # ------------------------------------------------------------------ #
+    def fit(self, obs: np.ndarray):
+        rng = np.random.RandomState(self.random_state)
+        obs = np.asarray(obs, dtype=float)
+
