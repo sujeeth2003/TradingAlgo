@@ -63,3 +63,23 @@ class GaussianHMM:
         alpha = np.zeros((T, self.n_states))
         scales = np.zeros(T)
 
+        alpha[0] = self.pi * B[0]
+        scales[0] = alpha[0].sum()
+        alpha[0] /= scales[0] + 1e-300
+
+        for t in range(1, T):
+            alpha[t] = (alpha[t - 1] @ self.A) * B[t]
+            scales[t] = alpha[t].sum()
+            alpha[t] /= scales[t] + 1e-300
+
+        log_likelihood = np.sum(np.log(scales + 1e-300))
+        return alpha, scales, log_likelihood
+
+    # ------------------------------------------------------------------ #
+    #  Backward pass  β[t, k] = P(ot+1…oT | qt=k, λ)
+    # ------------------------------------------------------------------ #
+    def _backward(self, obs: np.ndarray, B: np.ndarray, scales: np.ndarray):
+        T = len(obs)
+        beta = np.zeros((T, self.n_states))
+        beta[-1] = 1.0
+
