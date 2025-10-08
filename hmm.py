@@ -193,3 +193,14 @@ class GaussianHMM:
         for t in range(T - 2, -1, -1):
             states[t] = psi[t + 1, states[t + 1]]
 
+        return states
+
+    def predict_proba(self, obs: np.ndarray) -> np.ndarray:
+        """Returns smoothed state probabilities γ[t, k]."""
+        obs = np.asarray(obs, dtype=float)
+        B = self._emission_matrix(obs)
+        alpha, scales, _ = self._forward(obs, B)
+        beta = self._backward(obs, B, scales)
+        gamma = alpha * beta
+        gamma /= gamma.sum(axis=1, keepdims=True) + 1e-300
+        return gamma
