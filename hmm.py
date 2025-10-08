@@ -178,3 +178,18 @@ class GaussianHMM:
         T = len(obs)
         B = self._emission_matrix(obs)
 
+        log_delta = np.log(self.pi + 1e-300) + np.log(B[0] + 1e-300)
+        psi = np.zeros((T, self.n_states), dtype=int)
+
+        log_A = np.log(self.A + 1e-300)
+
+        for t in range(1, T):
+            trans = log_delta[None, :] + log_A.T  # shape [n_states, n_states]
+            psi[t] = trans.argmax(axis=1)
+            log_delta = trans.max(axis=1) + np.log(B[t] + 1e-300)
+
+        states = np.zeros(T, dtype=int)
+        states[-1] = log_delta.argmax()
+        for t in range(T - 2, -1, -1):
+            states[t] = psi[t + 1, states[t + 1]]
+
