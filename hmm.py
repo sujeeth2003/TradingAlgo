@@ -162,3 +162,19 @@ class GaussianHMM:
         if self.means[0] > self.means[1]:
             self._swap_states()
 
+        return self
+
+    def _swap_states(self):
+        self.means = self.means[::-1].copy()
+        self.vars = self.vars[::-1].copy()
+        self.pi = self.pi[::-1].copy()
+        self.A = self.A[::-1, :][:, ::-1].copy()
+
+    # ------------------------------------------------------------------ #
+    #  Predict (Viterbi decoding)
+    # ------------------------------------------------------------------ #
+    def predict(self, obs: np.ndarray) -> np.ndarray:
+        obs = np.asarray(obs, dtype=float)
+        T = len(obs)
+        B = self._emission_matrix(obs)
+
