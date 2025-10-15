@@ -402,3 +402,19 @@
   .action-SHORT { background: rgba(167,139,250,0.15); color: var(--purple); }
   .action-COVER { background: rgba(245,158,11,0.15); color: var(--amber);  }
 
+  /* Loading overlay */
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,12,16,0.85);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    backdrop-filter: blur(4px);
+  }
+
+  .loading-overlay.show { display: flex; }
+
