@@ -70,3 +70,20 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/health":
             self._send_json({"status": "ok"})
 
+        elif path == "/strategies":
+            result = {}
+            for key, cls in STRATEGIES.items():
+                result[key] = {
+                    "name": cls.name,
+                    "description": cls.description,
+                    "param_labels": cls.param_labels,
+                }
+            self._send_json(result)
+
+        else:
+            self._send_json({"error": "Not found"}, 404)
+
+    def do_POST(self):
+        parsed = urlparse(self.path)
+        path = parsed.path
+
