@@ -551,3 +551,19 @@
     .layout { grid-template-columns: 260px 1fr; }
   }
 
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    sidebar { position: static; height: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">AlgoTrade<span>Lab</span></div>
+  <div class="status-pill">
+    <div class="status-dot" id="serverDot"></div>
+    <span id="serverStatus">connecting…</span>
+  </div>
+</header>
+
