@@ -783,3 +783,22 @@ async function loadStrategies() {
   }
 }
 
+// ═══════════════════════════════════════════════════════════════
+//  STRATEGY UI
+// ═══════════════════════════════════════════════════════════════
+function renderStrategyCards() {
+  const container = document.getElementById('strategyCards');
+  container.innerHTML = '';
+  for (const [key, strat] of Object.entries(strategies)) {
+    const card = document.createElement('div');
+    card.className = 'strategy-card' + (key === activeStrategy ? ' active' : '');
+    card.dataset.key = key;
+    card.innerHTML = `
+      <div class="strategy-name">${strat.name}</div>
+      <div class="strategy-desc">${strat.description.slice(0, 80)}…</div>
+    `;
+    card.onclick = () => selectStrategy(key);
+    container.appendChild(card);
+  }
+}
+
