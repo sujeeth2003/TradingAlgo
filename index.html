@@ -731,3 +731,21 @@
   </main>
 </div>
 
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════════
+const API = 'http://localhost:8000';
+let strategies = {};
+let activeStrategy = 'hmm';
+let charts = {};
+
+// ═══════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════
+async function init() {
+  await checkServer();
+  await loadStrategies();
+  setupSliders();
+}
+
