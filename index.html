@@ -749,3 +749,37 @@ async function init() {
   setupSliders();
 }
 
+async function checkServer() {
+  try {
+    const r = await fetch(`${API}/health`);
+    if (r.ok) {
+      document.getElementById('serverDot').style.background = 'var(--green)';
+      document.getElementById('serverDot').style.boxShadow = '0 0 6px var(--green)';
+      document.getElementById('serverStatus').textContent = 'server online';
+    }
+  } catch {
+    document.getElementById('serverDot').style.background = 'var(--red)';
+    document.getElementById('serverDot').style.boxShadow = '0 0 6px var(--red)';
+    document.getElementById('serverStatus').textContent = 'server offline — run python server.py';
+  }
+}
+
+async function loadStrategies() {
+  try {
+    const r = await fetch(`${API}/strategies`);
+    strategies = await r.json();
+    renderStrategyCards();
+    selectStrategy(Object.keys(strategies)[0]);
+  } catch {
+    // Fallback hardcoded strategies for demo
+    strategies = {
+      hmm: { name: 'HMM Regime Detection', description: 'Gaussian HMM trained from scratch via Baum-Welch. Classifies bull/bear market regimes.', param_labels: { n_iter: 'EM Iterations', go_short: 'Short in Bear?' } },
+      ma_momentum: { name: 'MA Momentum Crossover', description: 'Dual moving-average crossover. Buy on golden cross, sell on death cross.', param_labels: { short_window: 'Short Window (days)', long_window: 'Long Window (days)' } },
+      mean_reversion: { name: 'Mean Reversion (Z-Score)', description: 'Buy when price dips below rolling mean by N std devs. Statistical reversion.', param_labels: { window: 'Rolling Window', z_entry: 'Entry Z-Score' } },
+      buy_and_hold: { name: 'Buy & Hold', description: 'Passive benchmark. Always long. No model.', param_labels: {} },
+    };
+    renderStrategyCards();
+    selectStrategy('hmm');
+  }
+}
+
