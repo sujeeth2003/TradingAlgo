@@ -886,3 +886,34 @@ async function runBacktest() {
   setLoading(true);
   clearError();
 
+  const body = {
+    ticker: document.getElementById('ticker').value.toUpperCase(),
+    start: document.getElementById('startDate').value,
+    end: document.getElementById('endDate').value,
+    strategy: activeStrategy,
+    params: getParams(),
+    train_window: parseInt(document.getElementById('trainWindow').value),
+    initial_capital: parseInt(document.getElementById('capital').value),
+    transaction_cost: parseFloat(document.getElementById('txCost').value) / 10000,
+    slippage: 0.0005,
+  };
+
+  // Inject go_short into params
+  body.params.go_short = document.getElementById('goShort').checked;
+
+  try {
+    const r = await fetch(`${API}/backtest`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Backtest failed');
+    renderResults(data);
+  } catch (e) {
+    showError(e.message);
+  } finally {
+    setLoading(false);
+  }
+}
+
