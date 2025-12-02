@@ -106,3 +106,20 @@ class Handler(BaseHTTPRequestHandler):
             tx_cost   = float(req.get("transaction_cost", 0.001))
             slippage  = float(req.get("slippage", 0.0005))
 
+            if strategy_key not in STRATEGIES:
+                self._send_json({"error": f"Unknown strategy: {strategy_key}"}, 400)
+                return
+
+            # Fetch data
+            data = fetch_prices(ticker, start, end)
+            prices = np.array(data["prices"])
+            dates  = data["dates"]
+            source = data.get("source", "unknown")
+
+            if len(prices) < train_window + 10:
+                self._send_json({
+                    "error": f"Not enough data ({len(prices)} bars, need {train_window + 10}). "
+                             "Try a longer date range or smaller train_window."
+                }, 400)
+                return
+
