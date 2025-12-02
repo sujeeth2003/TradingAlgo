@@ -87,3 +87,22 @@ class Handler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = parsed.path
 
+        if path == "/backtest":
+            length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(length)
+            try:
+                req = json.loads(body)
+            except Exception:
+                self._send_json({"error": "Invalid JSON"}, 400)
+                return
+
+            ticker    = req.get("ticker", "SPY").upper()
+            start     = req.get("start", "2018-01-01")
+            end       = req.get("end", "2024-01-01")
+            strategy_key = req.get("strategy", "hmm")
+            params    = req.get("params", {})
+            train_window = int(req.get("train_window", 504))
+            initial_capital = float(req.get("initial_capital", 100_000))
+            tx_cost   = float(req.get("transaction_cost", 0.001))
+            slippage  = float(req.get("slippage", 0.0005))
+
