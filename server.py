@@ -123,3 +123,20 @@ class Handler(BaseHTTPRequestHandler):
                 }, 400)
                 return
 
+            # Build and run strategy
+            strategy_cls = STRATEGIES[strategy_key]
+            strategy = strategy_cls()
+            strategy.set_params(**{k: v for k, v in params.items()
+                                   if hasattr(strategy, k)})
+
+            result = run_backtest(
+                strategy=strategy,
+                prices=prices,
+                dates=dates,
+                train_window=train_window,
+                initial_capital=initial_capital,
+                transaction_cost=tx_cost,
+                slippage=slippage,
+            )
+            result.metrics["Num Trades"] = len(result.trades)
+
