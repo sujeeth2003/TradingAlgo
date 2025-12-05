@@ -917,3 +917,20 @@ async function runBacktest() {
   }
 }
 
+// ═══════════════════════════════════════════════════════════════
+//  RENDER RESULTS
+// ═══════════════════════════════════════════════════════════════
+function renderResults(data) {
+  renderMetrics(data);
+  renderPortfolioChart(data);
+  renderPriceChart(data);
+  renderIndicatorChart(data);
+  renderReturnsChart(data);
+  renderTradeLog(data);
+}
+
+function renderMetrics(data) {
+  const m = data.metrics;
+  const strip = document.getElementById('metricsStrip');
+  strip.innerHTML = '';
+
