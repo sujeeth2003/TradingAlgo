@@ -934,3 +934,26 @@ function renderMetrics(data) {
   const strip = document.getElementById('metricsStrip');
   strip.innerHTML = '';
 
+  const items = [
+    { label: 'Total Return', value: m['Total Return'], unit: '%', color: m['Total Return'] >= 0 ? 'pos' : 'neg' },
+    { label: 'CAGR', value: m['CAGR'], unit: '%', color: m['CAGR'] >= 0 ? 'pos' : 'neg' },
+    { label: 'Sharpe Ratio', value: m['Sharpe Ratio'], unit: '', color: m['Sharpe Ratio'] >= 1 ? 'pos' : m['Sharpe Ratio'] >= 0 ? 'neu' : 'neg' },
+    { label: 'Sortino', value: m['Sortino Ratio'], unit: '', color: m['Sortino Ratio'] >= 1 ? 'pos' : 'neu' },
+    { label: 'Max Drawdown', value: m['Max Drawdown'], unit: '%', color: 'neg' },
+    { label: 'Win Rate', value: m['Win Rate'], unit: '%', color: m['Win Rate'] >= 50 ? 'pos' : 'neg' },
+    { label: 'VaR 95%', value: m['VaR 95% (daily)'], unit: '%', color: 'neg' },
+    { label: 'Benchmark', value: m['Benchmark Return'], unit: '%', color: m['Benchmark Return'] >= 0 ? 'neu' : 'neg' },
+    { label: 'Trades', value: m['Num Trades'], unit: '', color: 'acc' },
+  ];
+
+  for (const item of items) {
+    const card = document.createElement('div');
+    card.className = 'metric-card';
+    card.innerHTML = `
+      <div class="metric-label">${item.label}</div>
+      <div class="metric-value ${item.color}">${typeof item.value === 'number' ? item.value.toFixed(item.unit === '%' ? 1 : 2) : item.value}${item.unit}</div>
+    `;
+    strip.appendChild(card);
+  }
+}
+
