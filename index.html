@@ -1232,3 +1232,38 @@ function renderTradeLog(data) {
   }
 }
 
+// ═══════════════════════════════════════════════════════════════
+//  CHART OPTIONS (shared base)
+// ═══════════════════════════════════════════════════════════════
+function chartOptions(unit = '', fill = false) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        display: true,
+        labels: { color: '#64748b', font: { size: 11 }, boxWidth: 16 }
+      },
+      tooltip: {
+        backgroundColor: '#111318',
+        borderColor: '#1e2430',
+        borderWidth: 1,
+        titleColor: '#94a3b8',
+        bodyColor: '#e2e8f0',
+        callbacks: {
+          label: ctx => {
+            const v = ctx.parsed.y;
+            if (v == null) return '';
+            return ` ${ctx.dataset.label}: ${unit === '$' ? '$' : ''}${v != null ? v.toFixed(unit==='%'?3:2) : '—'}${unit !== '$' ? unit : ''}`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#475569', font: { size: 10, family: 'JetBrains Mono' }, maxTicksLimit: 10 },
+        grid: { color: '#1e2430' },
+      },
+      y: {
+        ticks: { color: '#475569', font: { size: 10, family: 'JetBrains Mono' } },
