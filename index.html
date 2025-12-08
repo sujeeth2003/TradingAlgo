@@ -1165,3 +1165,21 @@ function renderIndicatorChart(data) {
   }
 }
 
+// ── Returns Distribution Chart ───────────────────────────────────
+function renderReturnsChart(data) {
+  const ctx = document.getElementById('returnsChart').getContext('2d');
+  if (charts.returns) charts.returns.destroy();
+
+  const rets = data.strategy_returns.filter(r => r !== null && !isNaN(r));
+  const bins = 40;
+  const min = Math.min(...rets);
+  const max = Math.max(...rets);
+  const binSize = (max - min) / bins;
+  const counts = new Array(bins).fill(0);
+  const labels = [];
+
+  for (const r of rets) {
+    const i = Math.min(Math.floor((r - min) / binSize), bins - 1);
+    counts[i]++;
+  }
+
