@@ -992,3 +992,23 @@ function renderPortfolioChart(data) {
           borderColor: '#475569',
           borderWidth: 1.5,
           pointRadius: 0,
+          borderDash: [4, 4],
+          fill: false,
+          tension: 0.3,
+        },
+      ],
+    },
+    options: chartOptions('$', true),
+  });
+}
+
+// ── Price + Signal Chart ─────────────────────────────────────────
+function renderPriceChart(data) {
+  const ctx = document.getElementById('priceChart').getContext('2d');
+  if (charts.price) charts.price.destroy();
+
+  const step = Math.max(1, Math.floor(data.dates.length / 400));
+  const dates   = data.dates.filter((_, i) => i % step === 0);
+  const prices  = data.prices.filter((_, i) => i % step === 0);
+  const signals = data.signals.filter((_, i) => i % step === 0);
+
