@@ -1036,3 +1036,26 @@ function renderPriceChart(data) {
     };
   }
 
+  // MA overlays
+  const datasets = [];
+  if (data.indicator_data.short_ma) {
+    datasets.push({
+      label: 'Short MA',
+      data: data.indicator_data.short_ma.filter((_, i) => i % step === 0),
+      borderColor: '#22c55e',
+      borderWidth: 1.5,
+      pointRadius: 0,
+      fill: false,
+      tension: 0.3,
+    });
+    datasets.push({
+      label: 'Long MA',
+      data: data.indicator_data.long_ma.filter((_, i) => i % step === 0),
+      borderColor: '#ef4444',
+      borderWidth: 1.5,
+      pointRadius: 0,
+      fill: false,
+      tension: 0.3,
+    });
+  }
+
