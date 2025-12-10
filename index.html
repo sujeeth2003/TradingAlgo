@@ -1267,3 +1267,23 @@ function chartOptions(unit = '', fill = false) {
       },
       y: {
         ticks: { color: '#475569', font: { size: 10, family: 'JetBrains Mono' } },
+        grid: { color: '#1e2430' },
+      },
+    },
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  UI HELPERS
+// ═══════════════════════════════════════════════════════════════
+function setLoading(v) {
+  document.getElementById('loadingOverlay').classList.toggle('show', v);
+  document.getElementById('runBtn').disabled = v;
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorBanner');
+  el.textContent = '⚠ ' + msg;
+  el.classList.add('show');
+}
+
