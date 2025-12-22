@@ -98,3 +98,23 @@ class MAMomentumStrategy(BaseStrategy):
         self.short_window = short_window
         self.long_window = long_window
 
+    def fit(self, prices: np.ndarray, returns: np.ndarray):
+        return self  # no fitting needed
+
+    def generate_signals(self, prices: np.ndarray, returns: np.ndarray) -> np.ndarray:
+        short_ma = np.full(len(prices), np.nan)
+        long_ma  = np.full(len(prices), np.nan)
+
+        for i in range(self.long_window - 1, len(prices)):
+            short_ma[i] = prices[max(0, i - self.short_window + 1):i + 1].mean()
+            long_ma[i]  = prices[i - self.long_window + 1:i + 1].mean()
+
+        signals = np.zeros(len(prices))
+        for i in range(1, len(prices)):
+            if np.isnan(short_ma[i]) or np.isnan(long_ma[i]):
+                signals[i] = 0
+            elif short_ma[i] > long_ma[i]:
+                signals[i] = 1
+            else:
+                signals[i] = -1
+
