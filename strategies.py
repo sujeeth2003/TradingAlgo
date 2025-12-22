@@ -43,3 +43,19 @@ class BaseStrategy(ABC):
             if hasattr(self, k):
                 setattr(self, k, v)
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  STRATEGY 1 — HMM Regime Detection  (HNN from scratch)
+# ══════════════════════════════════════════════════════════════════════════════
+
+class HMMStrategy(BaseStrategy):
+    name = "HMM Regime Detection"
+    description = (
+        "2-state Gaussian Hidden Markov Model trained from scratch via Baum-Welch EM. "
+        "Classifies each day as Bull (long) or Bear (short/flat) based on learned regime."
+    )
+    param_labels = {
+        "n_iter": "EM Iterations",
+        "go_short": "Short in Bear? (else flat)",
+    }
+
