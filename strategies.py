@@ -166,3 +166,18 @@ class MeanReversionStrategy(BaseStrategy):
         signals = np.zeros(len(prices))
         position = 0
 
+        for i in range(len(prices)):
+            if np.isnan(z[i]):
+                signals[i] = 0
+                continue
+            if position == 0:
+                if z[i] < -self.z_entry:
+                    position = 1   # price unusually low → buy
+                elif z[i] > self.z_entry:
+                    position = -1  # price unusually high → short
+            elif position == 1 and z[i] > -self.z_exit:
+                position = 0
+            elif position == -1 and z[i] < self.z_exit:
+                position = 0
+            signals[i] = position
+
