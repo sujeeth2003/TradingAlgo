@@ -27,3 +27,19 @@ class BaseStrategy(ABC):
         """Fit any internal model to the training data."""
         ...
 
+    @abstractmethod
+    def generate_signals(self, prices: np.ndarray, returns: np.ndarray) -> np.ndarray:
+        """
+        Return signal array of same length as prices.
+        +1 = long, -1 = short, 0 = flat
+        """
+        ...
+
+    def get_params(self) -> dict:
+        return {}
+
+    def set_params(self, **kwargs):
+        for k, v in kwargs.items():
+            if hasattr(self, k):
+                setattr(self, k, v)
+
