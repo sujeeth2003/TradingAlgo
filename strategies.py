@@ -150,3 +150,19 @@ class MeanReversionStrategy(BaseStrategy):
         self.z_entry = z_entry
         self.z_exit = z_exit
 
+    def fit(self, prices: np.ndarray, returns: np.ndarray):
+        return self
+
+    def _rolling_zscore(self, prices: np.ndarray) -> np.ndarray:
+        z = np.full(len(prices), np.nan)
+        for i in range(self.window - 1, len(prices)):
+            window_data = prices[i - self.window + 1:i + 1]
+            mu, sigma = window_data.mean(), window_data.std()
+            z[i] = (prices[i] - mu) / (sigma + 1e-9)
+        return z
+
+    def generate_signals(self, prices: np.ndarray, returns: np.ndarray) -> np.ndarray:
+        z = self._rolling_zscore(prices)
+        signals = np.zeros(len(prices))
+        position = 0
+
