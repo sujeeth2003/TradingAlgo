@@ -118,3 +118,18 @@ class MAMomentumStrategy(BaseStrategy):
             else:
                 signals[i] = -1
 
+        return signals
+
+    def get_ma_lines(self, prices: np.ndarray):
+        short_ma = np.full(len(prices), np.nan)
+        long_ma  = np.full(len(prices), np.nan)
+        for i in range(self.long_window - 1, len(prices)):
+            short_ma[i] = prices[max(0, i - self.short_window + 1):i + 1].mean()
+            long_ma[i]  = prices[i - self.long_window + 1:i + 1].mean()
+        return short_ma, long_ma
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  STRATEGY 3 — Statistical Mean Reversion (Z-Score)
+# ══════════════════════════════════════════════════════════════════════════════
+
