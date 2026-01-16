@@ -61,3 +61,18 @@ trading-system/
 └── README.md
 ```
 
+---
+
+## 🔌 Adding a New Strategy
+
+Edit `strategies.py`. Add a class and register it:
+
+```python
+class MyNewStrategy(BaseStrategy):
+    name = "My Strategy"
+    description = "What it does"
+    param_labels = {"my_param": "Human Label"}
+
+    def __init__(self, my_param=10):
+        self.my_param = my_param
+
