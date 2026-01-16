@@ -84,3 +84,16 @@ class MyNewStrategy(BaseStrategy):
         # Return array of +1 (long), -1 (short), 0 (flat)
         return np.ones(len(prices))
 
+# Register it:
+STRATEGIES["my_strategy"] = MyNewStrategy
+```
+
+The dashboard will automatically show it in the strategy selector with parameter sliders.
+
+To add parameter sliders in the UI, add to `PARAM_DEFAULTS` in `index.html`:
+```javascript
+my_param: { min: 1, max: 100, value: 10, step: 1 },
+```
+
+---
+
