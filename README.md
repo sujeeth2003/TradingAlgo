@@ -76,3 +76,11 @@ class MyNewStrategy(BaseStrategy):
     def __init__(self, my_param=10):
         self.my_param = my_param
 
+    def fit(self, prices, returns):
+        # Train your model here
+        return self
+
+    def generate_signals(self, prices, returns):
+        # Return array of +1 (long), -1 (short), 0 (flat)
+        return np.ones(len(prices))
+
