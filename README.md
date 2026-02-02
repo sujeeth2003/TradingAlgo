@@ -122,3 +122,14 @@ Without a key, the system automatically falls back to:
 
 ---
 
+## 📈 Metrics Computed
+
+- **Sharpe Ratio** — annualized excess return / volatility
+- **Sortino Ratio** — penalizes only downside volatility
+- **CAGR** — compound annual growth rate
+- **Max Drawdown** — peak-to-trough loss
+- **VaR 95%** — 5th percentile daily return
+- **Win Rate** — % of positive return days
+
+---
+
