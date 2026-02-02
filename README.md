@@ -108,3 +108,17 @@ my_param: { min: 1, max: 100, value: 10, step: 1 },
 
 ---
 
+## ⚙️ Live Market Data
+
+Set your Polygon.io API key (free tier works):
+```bash
+export POLYGON_API_KEY=your_key_here
+python server.py
+```
+
+Without a key, the system automatically falls back to:
+1. Yahoo Finance (unofficial API)
+2. Synthetic GBM data with regime switching
+
+---
+
