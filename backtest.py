@@ -47,3 +47,17 @@ def run_backtest(
     returns = np.diff(prices) / prices[:-1]
     returns = np.concatenate([[0.0], returns])
 
+    portfolio = np.full(n, np.nan)
+    signals = np.zeros(n)
+    strategy_rets = np.zeros(n)
+    trades = []
+
+    cash = initial_capital
+    shares = 0.0
+    prev_signal = 0
+
+    # Walk-forward loop
+    for i in range(train_window, n):
+        train_prices  = prices[i - train_window:i]
+        train_returns = returns[i - train_window:i]
+
