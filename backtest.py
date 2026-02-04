@@ -111,3 +111,19 @@ def run_backtest(
                     "value": round(abs(shares) * sell_price, 2)
                 })
 
+            prev_signal = sig
+
+        # Mark to market
+        if shares >= 0:
+            portfolio[i] = cash + shares * price
+        else:
+            portfolio[i] = cash - abs(shares) * price
+
+    # Fill warm-up period (just cash)
+    portfolio[:train_window] = initial_capital
+    signals[:train_window] = 0
+
+    # Returns
+    strat_returns = np.diff(portfolio) / portfolio[:-1]
+    strat_returns = np.concatenate([[0.0], strat_returns])
+
