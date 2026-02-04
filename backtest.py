@@ -146,3 +146,26 @@ def run_backtest(
         except Exception:
             pass
 
+    # Strategy-specific indicator data
+    indicator_data = {}
+    if hasattr(strategy, "get_ma_lines"):
+        short_ma, long_ma = strategy.get_ma_lines(prices)
+        indicator_data["short_ma"] = short_ma
+        indicator_data["long_ma"] = long_ma
+    if hasattr(strategy, "get_zscore"):
+        indicator_data["zscore"] = strategy.get_zscore(prices)
+
+    return BacktestResult(
+        dates=dates,
+        prices=prices,
+        signals=signals,
+        portfolio_values=portfolio,
+        returns=strat_returns,
+        strategy_returns=strat_returns,
+        benchmark_values=benchmark,
+        trades=trades,
+        metrics=metrics,
+        regime_proba=regime_proba,
+        indicator_data=indicator_data,
+    )
+
