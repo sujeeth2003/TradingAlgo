@@ -197,3 +197,16 @@ def _compute_metrics(strat_returns, bench_returns, portfolio, benchmark, rf=0.02
     # Rolling VaR (95%, 20-day)
     var_95 = np.percentile(strat_returns, 5)
 
+    win_rate = (strat_returns > 0).mean()
+
+    return {
+        "Sharpe Ratio":     round(float(sharpe), 3),
+        "Sortino Ratio":    round(float(sortino), 3),
+        "CAGR":             round(float(cagr) * 100, 2),
+        "Total Return":     round(float(total_return) * 100, 2),
+        "Benchmark Return": round(float(bench_total) * 100, 2),
+        "Max Drawdown":     round(float(max_drawdown) * 100, 2),
+        "VaR 95% (daily)":  round(float(var_95) * 100, 3),
+        "Win Rate":         round(float(win_rate) * 100, 1),
+        "Num Trades":       0,  # will be filled by caller
+    }
