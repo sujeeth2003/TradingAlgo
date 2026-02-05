@@ -70,3 +70,18 @@ def _fetch_yahoo(ticker: str, start: str, end: str) -> dict | None:
         with urllib.request.urlopen(req, timeout=10) as resp:
             data = json.loads(resp.read())
 
+        chart = data["chart"]["result"][0]
+        timestamps = chart["timestamp"]
+        closes = chart["indicators"]["quote"][0]["close"]
+
+        pairs = [(datetime.utcfromtimestamp(t).strftime("%Y-%m-%d"), c)
+                 for t, c in zip(timestamps, closes) if c is not None]
+        dates, prices = zip(*pairs)
+        return {"dates": list(dates), "prices": list(prices), "source": "Yahoo Finance"}
+    except Exception as e:
+        print(f"[data] Yahoo error: {e}")
+        return None
+
+
+# ── Synthetic GBM fallback ──────────────────────────────────────────────────
+
