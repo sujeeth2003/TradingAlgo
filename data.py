@@ -27,3 +27,13 @@ def fetch_prices(ticker: str, start: str, end: str) -> dict:
         if result:
             return result
 
+    result = _fetch_yahoo(ticker, start, end)
+    if result:
+        return result
+
+    print(f"[data] Using synthetic GBM data for {ticker}")
+    return _synthetic_gbm(ticker, start, end)
+
+
+# ── Polygon.io ──────────────────────────────────────────────────────────────
+
