@@ -55,3 +55,18 @@ def _fetch_polygon(ticker: str, start: str, end: str) -> dict | None:
         print(f"[data] Polygon error: {e}")
         return None
 
+
+# ── Yahoo Finance (unofficial) ──────────────────────────────────────────────
+
+def _fetch_yahoo(ticker: str, start: str, end: str) -> dict | None:
+    try:
+        t1 = int(datetime.strptime(start, "%Y-%m-%d").timestamp())
+        t2 = int(datetime.strptime(end,   "%Y-%m-%d").timestamp())
+        url = (
+            f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
+            f"?interval=1d&period1={t1}&period2={t2}"
+        )
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read())
+
