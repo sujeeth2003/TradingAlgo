@@ -183,3 +183,17 @@ def _compute_metrics(strat_returns, bench_returns, portfolio, benchmark, rf=0.02
     downside = strat_returns[strat_returns < 0]
     sortino = (excess.mean() / (downside.std() + 1e-9)) * np.sqrt(ann) if len(downside) else 0
 
+    cumulative = (1 + strat_returns).cumprod()
+    rolling_max = np.maximum.accumulate(cumulative)
+    drawdowns = (cumulative - rolling_max) / (rolling_max + 1e-9)
+    max_drawdown = drawdowns.min()
+
+    total_return = portfolio[-1] / portfolio[0] - 1
+    years = n / ann
+    cagr = (1 + total_return) ** (1 / max(years, 1e-9)) - 1
+
+    bench_total = benchmark[-1] / benchmark[0] - 1
+
+    # Rolling VaR (95%, 20-day)
+    var_95 = np.percentile(strat_returns, 5)
+
