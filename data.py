@@ -115,3 +115,9 @@ def _synthetic_gbm(ticker: str, start: str, end: str) -> dict:
             regime_timer = rng.randint(20, 120)
         regime_timer -= 1
 
+        drift = mu * regime
+        shock = rng.gauss(0, sigma)
+        price = price * math.exp(drift + shock)
+        prices.append(price)
+
+    return {"dates": days, "prices": prices, "source": f"Synthetic GBM ({ticker})"}
