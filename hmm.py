@@ -43,3 +43,23 @@ class GaussianHMM:
         mu, sigma2 = self.means[k], self.vars[k]
         return (1.0 / np.sqrt(2 * np.pi * sigma2)) * np.exp(-0.5 * (x - mu) ** 2 / sigma2)
 
+    def _emission_matrix(self, obs: np.ndarray) -> np.ndarray:
+        """B[t, k] = p(obs[t] | state=k)"""
+        T = len(obs)
+        B = np.zeros((T, self.n_states))
+        for k in range(self.n_states):
+            mu, sigma2 = self.means[k], self.vars[k]
+            B[:, k] = (1.0 / np.sqrt(2 * np.pi * sigma2)) * np.exp(
+                -0.5 * (obs - mu) ** 2 / sigma2
+            )
+        B = np.clip(B, 1e-300, None)
+        return B
+
+    # ------------------------------------------------------------------ #
+    #  Forward pass  α[t, k] = P(o1…ot, qt=k | λ)
+    # ------------------------------------------------------------------ #
+    def _forward(self, obs: np.ndarray, B: np.ndarray):
+        T = len(obs)
+        alpha = np.zeros((T, self.n_states))
+        scales = np.zeros(T)
+
