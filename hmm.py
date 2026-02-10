@@ -98,3 +98,23 @@ class GaussianHMM:
         gamma = alpha * beta
         gamma /= gamma.sum(axis=1, keepdims=True) + 1e-300
 
+        # ξ[t, i, j] = P(qt=i, qt+1=j | O, λ)
+        xi = np.zeros((T - 1, self.n_states, self.n_states))
+        for t in range(T - 1):
+            xi[t] = (
+                alpha[t, :, None]
+                * self.A
+                * B[t + 1][None, :]
+                * beta[t + 1][None, :]
+            )
+            xi[t] /= xi[t].sum() + 1e-300
+
+        return gamma, xi
+
+    # ------------------------------------------------------------------ #
+    #  M-step: update parameters
+    # ------------------------------------------------------------------ #
+    def _m_step(self, obs: np.ndarray, gamma: np.ndarray, xi: np.ndarray):
+        self.pi = gamma[0] / gamma[0].sum()
+        self.A = xi.sum(axis=0) / xi.sum(axis=0).sum(axis=1, keepdims=True)
+
