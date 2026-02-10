@@ -132,3 +132,17 @@ class GaussianHMM:
         rng = np.random.RandomState(self.random_state)
         obs = np.asarray(obs, dtype=float)
 
+        # Initialise parameters
+        self.pi = np.ones(self.n_states) / self.n_states
+        self.A = rng.dirichlet(np.ones(self.n_states), size=self.n_states)
+        sorted_idx = np.argsort(obs)
+        split = len(obs) // self.n_states
+        self.means = np.array([
+            obs[sorted_idx[:split]].mean(),
+            obs[sorted_idx[split:]].mean()
+        ])
+        self.vars = np.array([obs.var(), obs.var()])
+
+        self.log_likelihoods = []
+        prev_ll = -np.inf
+
