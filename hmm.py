@@ -146,3 +146,19 @@ class GaussianHMM:
         self.log_likelihoods = []
         prev_ll = -np.inf
 
+        for _ in range(self.n_iter):
+            B = self._emission_matrix(obs)
+            alpha, scales, ll = self._forward(obs, B)
+            beta = self._backward(obs, B, scales)
+            gamma, xi = self._e_step(obs, B, alpha, beta)
+            self._m_step(obs, gamma, xi)
+            self.log_likelihoods.append(ll)
+
+            if abs(ll - prev_ll) < self.tol:
+                break
+            prev_ll = ll
+
+        # Ensure state 0 = bear (lower mean), state 1 = bull (higher mean)
+        if self.means[0] > self.means[1]:
+            self._swap_states()
+
