@@ -83,3 +83,18 @@ class GaussianHMM:
         beta = np.zeros((T, self.n_states))
         beta[-1] = 1.0
 
+        for t in range(T - 2, -1, -1):
+            beta[t] = (self.A @ (B[t + 1] * beta[t + 1])) / (scales[t + 1] + 1e-300)
+
+        return beta
+
+    # ------------------------------------------------------------------ #
+    #  E-step: compute γ and ξ
+    # ------------------------------------------------------------------ #
+    def _e_step(self, obs: np.ndarray, B: np.ndarray, alpha: np.ndarray, beta: np.ndarray):
+        T = len(obs)
+
+        # γ[t, k] = P(qt=k | O, λ)
+        gamma = alpha * beta
+        gamma /= gamma.sum(axis=1, keepdims=True) + 1e-300
+
