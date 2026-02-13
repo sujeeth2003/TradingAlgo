@@ -127,3 +127,22 @@
     position: relative;
   }
 
+  .strategy-card:hover {
+    border-color: var(--accent);
+    background: var(--surface);
+  }
+
+  .strategy-card.active {
+    border-color: var(--accent);
+    background: rgba(56, 189, 248, 0.06);
+  }
+
+  .strategy-card.active::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 3px;
+    background: var(--accent);
+    border-radius: 0 2px 2px 0;
+  }
+
