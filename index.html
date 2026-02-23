@@ -535,3 +535,19 @@
     overflow-y: auto;
   }
 
+  .trade-scroll::-webkit-scrollbar { width: 4px; }
+  .trade-scroll::-webkit-scrollbar-track { background: transparent; }
+  .trade-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* 2-col chart grid */
+  .chart-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 1200px) {
+    .chart-grid-2 { grid-template-columns: 1fr; }
+    .layout { grid-template-columns: 260px 1fr; }
+  }
+
