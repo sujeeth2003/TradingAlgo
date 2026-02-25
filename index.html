@@ -802,3 +802,25 @@ function renderStrategyCards() {
   }
 }
 
+function selectStrategy(key) {
+  activeStrategy = key;
+  document.querySelectorAll('.strategy-card').forEach(c => c.classList.remove('active'));
+  const card = document.querySelector(`.strategy-card[data-key="${key}"]`);
+  if (card) card.classList.add('active');
+
+  const strat = strategies[key];
+  if (!strat) return;
+
+  document.getElementById('algoInfo').textContent = strat.description;
+  renderParamGroup(key, strat.param_labels || {});
+}
+
+const PARAM_DEFAULTS = {
+  n_iter: { min: 10, max: 300, value: 100, step: 10 },
+  short_window: { min: 3, max: 50, value: 10, step: 1 },
+  long_window:  { min: 10, max: 200, value: 30, step: 5 },
+  window:       { min: 5, max: 60, value: 20, step: 1 },
+  z_entry:      { min: 0.5, max: 3.0, value: 1.5, step: 0.1, scale: 10 },
+  z_exit:       { min: 0.1, max: 2.0, value: 0.5, step: 0.1, scale: 10 },
+};
+
