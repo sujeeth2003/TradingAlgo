@@ -705,3 +705,29 @@
       </div>
     </div>
 
+    <!-- Trade Log -->
+    <div class="trade-log">
+      <div class="trade-log-header">
+        <div class="chart-title">🔁 Trade Log <span class="chart-badge" id="tradeCount">0 trades</span></div>
+        <div style="font-size:0.7rem;color:var(--muted);font-family:var(--mono);">Last 50 transactions</div>
+      </div>
+      <div class="trade-scroll">
+        <table class="trade-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Action</th>
+              <th>Price</th>
+              <th>Shares</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody id="tradeBody">
+            <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:30px;font-family:var(--mono);font-size:0.78rem;">Run a backtest to see trades</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
