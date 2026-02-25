@@ -631,3 +631,35 @@
       </div>
     </div>
 
+    <button class="run-btn" id="runBtn" onclick="runBacktest()">▶ Run Backtest</button>
+  </sidebar>
+
+  <!-- ── MAIN ── -->
+  <main>
+    <div class="error-banner" id="errorBanner"></div>
+
+    <!-- Metrics -->
+    <div class="metrics-strip" id="metricsStrip">
+      <div class="metric-card">
+        <div class="metric-label">Status</div>
+        <div class="metric-value neu" style="font-size:1rem;padding-top:4px;">Configure & Run →</div>
+      </div>
+    </div>
+
+    <!-- Portfolio chart -->
+    <div class="chart-panel">
+      <div class="chart-header">
+        <div class="chart-title">
+          💰 Portfolio Value
+          <div class="chart-badge" id="portfolioLabel">—</div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#38bdf8;"></div>Strategy</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#64748b;"></div>Buy & Hold</div>
+        </div>
+      </div>
+      <div class="chart-container" style="height:260px;">
+        <canvas id="portfolioChart"></canvas>
+      </div>
+    </div>
+
