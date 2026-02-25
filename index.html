@@ -606,3 +606,28 @@
       </div>
     </div>
 
+    <div>
+      <div class="section-label">Backtest Config</div>
+      <div class="param-group">
+        <div class="param-row">
+          <div class="param-label">Train Window <span id="trainWindowVal">504</span> days</div>
+          <input type="range" id="trainWindow" min="100" max="756" value="504" step="21">
+        </div>
+        <div class="param-row">
+          <div class="param-label">Initial Capital $<span id="capitalVal">100,000</span></div>
+          <input type="range" id="capital" min="10000" max="1000000" value="100000" step="5000">
+        </div>
+        <div class="param-row">
+          <div class="param-label">Tx Cost <span id="txCostVal">0.1</span>%</div>
+          <input type="range" id="txCost" min="0" max="50" value="10" step="1">
+        </div>
+        <div class="toggle-row" style="margin-top:4px;">
+          <label class="toggle">
+            <input type="checkbox" id="goShort">
+            <div class="toggle-slider"></div>
+          </label>
+          Allow Short Selling
+        </div>
+      </div>
+    </div>
+
