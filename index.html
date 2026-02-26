@@ -848,3 +848,25 @@ function renderParamGroup(key, paramLabels) {
   }
 }
 
+function getParams() {
+  const strat = strategies[activeStrategy] || {};
+  const params = {};
+  for (const param of Object.keys(strat.param_labels || {})) {
+    if (param === 'go_short') continue;
+    const el = document.getElementById(`range_${param}`);
+    if (el) {
+      const cfg = PARAM_DEFAULTS[param] || {};
+      const scale = cfg.scale || 1;
+      params[param] = parseFloat(el.value) / scale;
+    }
+  }
+  return params;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SLIDERS
+// ═══════════════════════════════════════════════════════════════
+function setupSliders() {
+  const tw = document.getElementById('trainWindow');
+  tw.oninput = () => document.getElementById('trainWindowVal').textContent = tw.value;
+
