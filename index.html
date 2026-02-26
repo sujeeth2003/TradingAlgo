@@ -824,3 +824,27 @@ const PARAM_DEFAULTS = {
   z_exit:       { min: 0.1, max: 2.0, value: 0.5, step: 0.1, scale: 10 },
 };
 
+function renderParamGroup(key, paramLabels) {
+  const group = document.getElementById('paramGroup');
+  group.innerHTML = '';
+
+  if (Object.keys(paramLabels).length === 0) {
+    group.innerHTML = '<div style="font-size:0.75rem;color:var(--muted);font-family:var(--mono);">No parameters for this strategy.</div>';
+    return;
+  }
+
+  for (const [param, label] of Object.entries(paramLabels)) {
+    if (param === 'go_short') continue; // handled by toggle
+    const cfg = PARAM_DEFAULTS[param] || { min: 1, max: 100, value: 10, step: 1 };
+    const scale = cfg.scale || 1;
+    const row = document.createElement('div');
+    row.className = 'param-row';
+    row.innerHTML = `
+      <div class="param-label">${label} <span id="val_${param}">${cfg.value / scale}</span></div>
+      <input type="range" id="range_${param}" min="${cfg.min}" max="${cfg.max}" value="${cfg.value}" step="${cfg.step}"
+        oninput="document.getElementById('val_${param}').textContent=(this.value/${scale}).toFixed(${scale>1?1:0})">
+    `;
+    group.appendChild(row);
+  }
+}
+
