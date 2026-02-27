@@ -870,3 +870,19 @@ function setupSliders() {
   const tw = document.getElementById('trainWindow');
   tw.oninput = () => document.getElementById('trainWindowVal').textContent = tw.value;
 
+  const cap = document.getElementById('capital');
+  cap.oninput = () => document.getElementById('capitalVal').textContent =
+    parseInt(cap.value).toLocaleString();
+
+  const tx = document.getElementById('txCost');
+  tx.oninput = () => document.getElementById('txCostVal').textContent =
+    (tx.value / 100).toFixed(2);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  BACKTEST
+// ═══════════════════════════════════════════════════════════════
+async function runBacktest() {
+  setLoading(true);
+  clearError();
+
