@@ -957,3 +957,38 @@ function renderMetrics(data) {
   }
 }
 
+// ── Portfolio Chart ──────────────────────────────────────────────
+function renderPortfolioChart(data) {
+  const ctx = document.getElementById('portfolioChart').getContext('2d');
+  if (charts.portfolio) charts.portfolio.destroy();
+
+  // Thin dates for performance
+  const step = Math.max(1, Math.floor(data.dates.length / 400));
+  const dates = data.dates.filter((_, i) => i % step === 0);
+  const port  = data.portfolio_values.filter((_, i) => i % step === 0);
+  const bench = data.benchmark_values.filter((_, i) => i % step === 0);
+
+  document.getElementById('portfolioLabel').textContent =
+    `${data.ticker} · ${data.strategy_name} · src: ${data.source}`;
+
+  charts.portfolio = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [
+        {
+          label: 'Strategy',
+          data: port,
+          borderColor: '#38bdf8',
+          backgroundColor: 'rgba(56,189,248,0.06)',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: true,
+          tension: 0.3,
+        },
+        {
+          label: 'Buy & Hold',
+          data: bench,
+          borderColor: '#475569',
+          borderWidth: 1.5,
+          pointRadius: 0,
