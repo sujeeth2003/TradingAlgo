@@ -140,3 +140,22 @@ class Handler(BaseHTTPRequestHandler):
             )
             result.metrics["Num Trades"] = len(result.trades)
 
+            response = {
+                "ticker": ticker,
+                "source": source,
+                "strategy": strategy_key,
+                "strategy_name": strategy_cls.name,
+                "dates": dates,
+                "prices": prices.tolist(),
+                "signals": result.signals.tolist(),
+                "portfolio_values": result.portfolio_values.tolist(),
+                "benchmark_values": result.benchmark_values.tolist(),
+                "strategy_returns": result.strategy_returns.tolist(),
+                "metrics": result.metrics,
+                "trades": result.trades[-50:],  # last 50 trades for UI
+                "regime_proba": result.regime_proba.tolist() if result.regime_proba is not None else None,
+                "indicator_data": {k: v.tolist() if isinstance(v, np.ndarray) else v
+                                   for k, v in result.indicator_data.items()},
+                "train_window": train_window,
+            }
+
