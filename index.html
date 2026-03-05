@@ -1082,3 +1082,20 @@ function renderPriceChart(data) {
   });
 }
 
+// ── Indicator Chart ──────────────────────────────────────────────
+function renderIndicatorChart(data) {
+  const canvas  = document.getElementById('indicatorChart');
+  const empty   = document.getElementById('indicatorEmpty');
+  const titleEl = document.getElementById('indicatorTitle');
+  if (charts.indicator) charts.indicator.destroy();
+
+  const step = Math.max(1, Math.floor(data.dates.length / 400));
+  const dates = data.dates.filter((_, i) => i % step === 0);
+
+  if (data.regime_proba) {
+    // HMM: show bull probability
+    titleEl.textContent = '🔬 HMM Bull-State Probability';
+    canvas.style.display = '';
+    empty.style.display  = 'none';
+    const rp = data.regime_proba.filter((_, i) => i % step === 0);
+
