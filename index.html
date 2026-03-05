@@ -1059,3 +1059,26 @@ function renderPriceChart(data) {
     });
   }
 
+  charts.price = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [
+        {
+          label: data.ticker,
+          data: prices,
+          borderColor: '#e2e8f0',
+          borderWidth: 1.5,
+          pointRadius: 1.5,
+          pointBackgroundColor: pointColors,
+          fill: false,
+          tension: 0.2,
+        },
+        ...(regimeBg ? [regimeBg] : []),
+        ...datasets,
+      ],
+    },
+    options: chartOptions('$'),
+  });
+}
+
