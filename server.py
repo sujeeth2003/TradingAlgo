@@ -159,3 +159,17 @@ class Handler(BaseHTTPRequestHandler):
                 "train_window": train_window,
             }
 
+            self._send_json(response)
+        else:
+            self._send_json({"error": "Not found"}, 404)
+
+
+def run(port=8000):
+    server = HTTPServer(("0.0.0.0", port), Handler)
+    print(f"[server] Trading API running at http://localhost:{port}")
+    print(f"[server] Open index.html in your browser to use the dashboard")
+    server.serve_forever()
+
+
+if __name__ == "__main__":
+    run()
