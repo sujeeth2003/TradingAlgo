@@ -1208,3 +1208,27 @@ function renderReturnsChart(data) {
   });
 }
 
+// ── Trade Log ────────────────────────────────────────────────────
+function renderTradeLog(data) {
+  document.getElementById('tradeCount').textContent = `${data.metrics['Num Trades']} trades`;
+  const tbody = document.getElementById('tradeBody');
+  tbody.innerHTML = '';
+
+  if (!data.trades || data.trades.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:30px;font-family:var(--mono);font-size:0.78rem;">No trades executed</td></tr>';
+    return;
+  }
+
+  for (const t of [...data.trades].reverse()) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${t.date}</td>
+      <td><span class="action-badge action-${t.action}">${t.action}</span></td>
+      <td>$${parseFloat(t.price).toFixed(2)}</td>
+      <td>${t.shares}</td>
+      <td>$${parseFloat(t.value).toLocaleString(undefined, {maximumFractionDigits:0})}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
