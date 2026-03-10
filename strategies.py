@@ -12,3 +12,18 @@ import numpy as np
 from abc import ABC, abstractmethod
 from hmm import GaussianHMM
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  BASE INTERFACE
+# ══════════════════════════════════════════════════════════════════════════════
+
+class BaseStrategy(ABC):
+    name: str = "BaseStrategy"
+    description: str = ""
+    param_labels: dict = {}   # {param_name: human label} for UI display
+
+    @abstractmethod
+    def fit(self, prices: np.ndarray, returns: np.ndarray):
+        """Fit any internal model to the training data."""
+        ...
+
