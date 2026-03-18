@@ -59,3 +59,18 @@ class HMMStrategy(BaseStrategy):
         "go_short": "Short in Bear? (else flat)",
     }
 
+    def __init__(self, n_iter: int = 100, go_short: bool = False):
+        self.n_iter = n_iter
+        self.go_short = go_short
+        self._model = None
+
+    def fit(self, prices: np.ndarray, returns: np.ndarray):
+        self._model = GaussianHMM(n_states=2, n_iter=self.n_iter)
+        self._model.fit(returns)
+        return self
+
+    def generate_signals(self, prices: np.ndarray, returns: np.ndarray) -> np.ndarray:
+        states = self._model.predict(returns)   # 0=bear, 1=bull
+        signals = np.where(states == 1, 1, -1 if self.go_short else 0)
+        return signals.astype(float)
+
