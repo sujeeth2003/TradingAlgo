@@ -83,3 +83,18 @@ class HMMStrategy(BaseStrategy):
 #  STRATEGY 2 — Moving Average Momentum (MA Crossover)
 # ══════════════════════════════════════════════════════════════════════════════
 
+class MAMomentumStrategy(BaseStrategy):
+    name = "MA Momentum Crossover"
+    description = (
+        "Classic dual moving-average crossover. Buy when short MA crosses above long MA, "
+        "sell when it crosses below."
+    )
+    param_labels = {
+        "short_window": "Short Window (days)",
+        "long_window":  "Long Window (days)",
+    }
+
+    def __init__(self, short_window: int = 10, long_window: int = 30):
+        self.short_window = short_window
+        self.long_window = long_window
+
