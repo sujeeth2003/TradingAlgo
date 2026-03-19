@@ -74,3 +74,12 @@ class HMMStrategy(BaseStrategy):
         signals = np.where(states == 1, 1, -1 if self.go_short else 0)
         return signals.astype(float)
 
+    def get_regime_proba(self, returns: np.ndarray) -> np.ndarray:
+        """Returns bull-state probability at each step (for chart overlay)."""
+        return self._model.predict_proba(returns)[:, 1]
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  STRATEGY 2 — Moving Average Momentum (MA Crossover)
+# ══════════════════════════════════════════════════════════════════════════════
+
