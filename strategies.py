@@ -133,3 +133,20 @@ class MAMomentumStrategy(BaseStrategy):
 #  STRATEGY 3 — Statistical Mean Reversion (Z-Score)
 # ══════════════════════════════════════════════════════════════════════════════
 
+class MeanReversionStrategy(BaseStrategy):
+    name = "Mean Reversion (Z-Score)"
+    description = (
+        "Buy when price is below its rolling mean by z_entry std devs (expecting bounce), "
+        "sell when above z_entry std devs. Classic statistical mean-reversion."
+    )
+    param_labels = {
+        "window":   "Rolling Window (days)",
+        "z_entry":  "Entry Z-Score Threshold",
+        "z_exit":   "Exit Z-Score Threshold",
+    }
+
+    def __init__(self, window: int = 20, z_entry: float = 1.5, z_exit: float = 0.5):
+        self.window = window
+        self.z_entry = z_entry
+        self.z_exit = z_exit
+
