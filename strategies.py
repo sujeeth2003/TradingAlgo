@@ -191,3 +191,19 @@ class MeanReversionStrategy(BaseStrategy):
 #  STRATEGY 4 — Buy and Hold (Benchmark)
 # ══════════════════════════════════════════════════════════════════════════════
 
+class BuyAndHoldStrategy(BaseStrategy):
+    name = "Buy & Hold"
+    description = "Passive benchmark. Always long. No model — just holds."
+    param_labels = {}
+
+    def fit(self, prices: np.ndarray, returns: np.ndarray):
+        return self
+
+    def generate_signals(self, prices: np.ndarray, returns: np.ndarray) -> np.ndarray:
+        return np.ones(len(prices))
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  STRATEGY REGISTRY  — add new strategies here
+# ══════════════════════════════════════════════════════════════════════════════
+
