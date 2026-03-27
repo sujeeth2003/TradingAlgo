@@ -181,3 +181,13 @@ class MeanReversionStrategy(BaseStrategy):
                 position = 0
             signals[i] = position
 
+        return signals
+
+    def get_zscore(self, prices: np.ndarray) -> np.ndarray:
+        return self._rolling_zscore(prices)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  STRATEGY 4 — Buy and Hold (Benchmark)
+# ══════════════════════════════════════════════════════════════════════════════
+
