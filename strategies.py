@@ -207,3 +207,9 @@ class BuyAndHoldStrategy(BaseStrategy):
 #  STRATEGY REGISTRY  — add new strategies here
 # ══════════════════════════════════════════════════════════════════════════════
 
+STRATEGIES = {
+    "hmm":           HMMStrategy,
+    "ma_momentum":   MAMomentumStrategy,
+    "mean_reversion": MeanReversionStrategy,
+    "buy_and_hold":  BuyAndHoldStrategy,
+}
